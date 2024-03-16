@@ -7,8 +7,8 @@ from django.conf import settings
 def json_to_pdf():
     RESOURCES_DIR = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'resources')
     REPORTS_DIR = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'reports')
-    input_file = os.path.join(REPORTS_DIR, 'Blank_A4_Landscape.jrxml')
-    output_file = os.path.join(REPORTS_DIR, 'Blank_A4_Landscape.pdf')
+    input_file = os.path.join(REPORTS_DIR, 'Invoice.jrxml')
+    output_file = os.path.join(RESOURCES_DIR, 'Invoice.pdf')
 
     generate_utils_dir = os.path.join(settings.BASE_DIR, 'export', 'generate')
     if not os.path.exists(generate_utils_dir):
@@ -21,7 +21,6 @@ def json_to_pdf():
     with open(json_file, "w") as outfile:
         outfile.write(json_obj)
 
-    print(f"json_file: {json_file}")
     conn = {
         'driver': 'json',
         'data_file': json_file,
