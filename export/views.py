@@ -13,10 +13,21 @@ def json_to_pdf(title="FooKCompany"):
     json_filename = 'data.json'
     json_file = os.path.join(REPORTS_DIR, json_filename)
     parameters = {"Title": title}
+    # conn = {
+    #     'driver': 'json',
+    #     'data_file': json_file
+    # }
     conn = {
-        'driver': 'json',
-        'data_file': json_file
-    }
+      'driver': 'csv',
+      'data_file': os.path.join(RESOURCES_DIR, 'csvExampleHeaders.csv'),
+      'csv_charset': 'utf-8',
+      'csv_out_charset': 'utf-8',
+      'csv_field_del': '|',
+      'csv_out_field_del': '|',
+      'csv_record_del': "\r\n",
+      'csv_first_row': True,
+      'csv_columns': "Name,Street,City,Phone".split(",")
+   }
 
     pyreportjasper = PyReportJasper()
     pyreportjasper.config(
