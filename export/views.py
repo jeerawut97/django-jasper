@@ -49,7 +49,10 @@ def index(request):
     if request.method == 'POST':
         data = request.POST.copy()
         title = data.get("title", "Ex.Topic")
-        buffer = pdf_to_buffer(json_to_pdf(title))
-        return FileResponse(buffer, as_attachment=True, filename='helloworld-jasper.pdf')
+        with open(json_to_pdf(title), 'rb') as file:
+            response = FileResponse(file)
+            response['Content-Type'] = 'text/plain'
+            response['Content-Disposition'] = 'attachment; filename="helloworld-jasper.pdf"'
+            return response
 
     return render(request, 'index.html', context)
