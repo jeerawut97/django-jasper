@@ -10,24 +10,13 @@ def json_to_pdf(title="FooKCompany"):
     REPORTS_DIR = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'reports')
     input_file = os.path.join(REPORTS_DIR, 'Blank_A4.jrxml')
     output_file = os.path.join(RESOURCES_DIR, 'Blank_A4.pdf')
+    parameters = {"Title": title}
     json_filename = 'data.json'
     json_file = os.path.join(REPORTS_DIR, json_filename)
-    parameters = {"Title": title}
-    # conn = {
-    #     'driver': 'json',
-    #     'data_file': json_file
-    # }
     conn = {
-      'driver': 'csv',
-      'data_file': os.path.join(RESOURCES_DIR, 'csvExampleHeaders.csv'),
-      'csv_charset': 'utf-8',
-      'csv_out_charset': 'utf-8',
-      'csv_field_del': '|',
-      'csv_out_field_del': '|',
-      'csv_record_del': "\r\n",
-      'csv_first_row': True,
-      'csv_columns': "Name,Street,City,Phone".split(",")
-   }
+        'driver': 'json',
+        'data_file': json_file
+    }
 
     pyreportjasper = PyReportJasper()
     pyreportjasper.config(
@@ -49,10 +38,7 @@ def index(request):
     if request.method == 'POST':
         data = request.POST.copy()
         title = data.get("title", "Ex.Topic")
-        with open(json_to_pdf(title), 'rb') as file:
-            response = FileResponse(file)
-            response['Content-Type'] = 'text/plain'
-            response['Content-Disposition'] = 'attachment; filename="helloworld-jasper.pdf"'
-            return response
+        buffer = pdf_to_buffer(json_to_pdf(title))
+        return FileResponse(buffer, as_attachment=True, filename='helloworld-jasper.pdf')
 
     return render(request, 'index.html', context)
