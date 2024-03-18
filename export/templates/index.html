@@ -4,31 +4,32 @@
 {% block title %} Jasper Report {% endblock %} 
 {% block head %}
 <style>
-    /* Carousel base class */
-    .carousel {
-        margin-bottom: 4rem;
-    }
-    .carousel-caption {
-        bottom: 3rem;
-        z-index: 10;
+    * {
+        background-color: transparent;
     }
 
-    .carousel-item {
-        height: 32rem;
+    main {
+        padding-top: 2rem;
+        padding-bottom: 2rem;
     }
-    .carousel-item > img {
-        position: absolute;
-        top: 0;
-        right: 0;
-        min-width: 100%;
-        height: 32rem;
+
+    h3 {
+        padding-bottom: 1rem;
     }
+
 </style>
 {% endblock %}
 
 {% block content %}
   <main>
-    <div>
+    <div class="main">
+        <form method="POST">
+            {% csrf_token %}
+            <h3>Demo Jasper Report PDF</h3>
+            <input type="text" value="Ex.Topic" id="title" name="title">
+            <button type="submit">Export</button>
+        </form>
+        
     </div>
   </main>
 {% endblock %} 
